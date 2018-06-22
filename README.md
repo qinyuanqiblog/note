@@ -1,3 +1,3 @@
 # 个人笔记
 
-* [angularjs官网](https://docs.angularjs.org)
+## 请各位看官，直接点击文件即可，轻喷~ 码畜一枚
