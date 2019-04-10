@@ -77,5 +77,10 @@
 ![](/images/jenkins/8-3-4.png)
 
 ### SSH: Transferred 0 file(s)
+
 > 这个是因为ssh的source file 路径配置有问题，没有好好看文档的下场，😃
 * [解决办法](https://www.cnblogs.com/zongyl/p/9157488.html)
+
+## [Jenkins theme 极简式自动生成定制主题css
+
+* [Jenkins theme 极简式自动生成定制主题css](https://blog.csdn.net/dongwuming/article/details/80010101)
