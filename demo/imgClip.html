@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>上传头像处理</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        img {
+            display: block;
+            margin: 0 auto;
+        }
+
+        div,
+        p {
+            line-height: 2;
+        }
+
+        div {
+            margin: 20px;
+        }
+
+        .img {
+            width: 200px;
+            height: 200px;
+        }
+
+        canvas {
+            border: 1px solid red;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+
+    <body>
+        <div>
+            最近在项目中碰到的一个安卓妹子提的需求，说是上传一个长方形的图片的时候， 直接把她的头像给压扁了，丑丑的， 无法忍受，于是，便该之；大致思路如下
+        </div>
+
+        <div>
+            <p> 1. 对预览图不做固定宽高限制的做法，可以直接使用 background-size:contain; 属性来做适配就可以了</p>
+            <p> 2. 对预览图有限制宽高的做法的时候， 就要使用canvas 对我们的图片进行处理一下， 代码如下， 请自行观摩</p>
+        </div>
+
+        <div>
+            原图
+        </div>
+        <img src="images/imgClip/1.png" alt="">
+        <div>
+            canvas 处理裁剪后的图
+        </div>
+        <canvas id=""></canvas>
+        <div>
+            最终的效果图
+        </div>
+    </body>
+
+    <script>
+        var body = document.querySelector('body');
+        var img = document.querySelector('img');
+        var canvas = document.querySelector('canvas');
+        var ctx = canvas.getContext('2d');
+
+        img.addEventListener('load', function() {
+            var imgWidth = img.offsetWidth;
+            var imgHeight = img.offsetHeight;
+            canvas.setAttribute('width', imgHeight)
+            canvas.setAttribute('height', imgHeight)
+            var sx = (imgWidth - imgHeight) / 2;
+            ctx.drawImage(img, sx, 0, imgHeight, imgHeight, 0, 0, imgHeight, imgHeight);
+
+            var src = _base64ToBlob(canvas.toDataURL());
+            var newImage = new Image();
+            newImage.className = 'img';
+            newImage.src = src;
+            body.appendChild(newImage);
+        })
+
+        /**
+         * base64编码数据转成blob对象
+         * @param dataURL {object}        一个基于Base64编码编码的数据URI对象
+         * @return result {blob object}   返回一个可以直接浏览的本地图片地址
+         */
+        function _base64ToBlob(dataURL) {
+            //获取源数据类型
+            var mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0];
+            //取到base64转码后的源数据
+            var str = dataURL.split(',')[1];
+            //base64解码
+            str = window.atob(str);
+            //使用一个 Uint8Array 来存放数据
+            var utf8Array = new Uint8Array(str.length);
+            for (var i = 0; i < str.length; i++) {
+                utf8Array[i] = str.charCodeAt(i);
+            }
+            //转换成一个blob对象
+            var blob = new Blob([utf8Array], {
+                type: mimeString
+            });
+            //生成可以直接访问的本地地址
+            var src = URL.createObjectURL(blob);
+            return src;
+        }
+    </script>
+
+</html>
